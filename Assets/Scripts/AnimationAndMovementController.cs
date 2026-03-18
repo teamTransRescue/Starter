@@ -12,9 +12,12 @@ public class AnimationAndMovementController : MonoBehaviour
     int isWalkingHash = Animator.StringToHash("isWalking");
 
     Vector2 currentMovementInput;
-    Vector3 currentMovement;
+    // -1 is backward, +1 is walk speed
+    float currentSpeed = 0.0f;
+    float goalSpeed = 0.0f;
     bool isMovementPressed;
-    float rotationFactorPerFrame = 1.0f;
+    float rotationDegreesPerSecond = 180.0f;
+    float walkSpeed = 1.0f;
 
     void Awake()
     {
@@ -31,27 +34,20 @@ public class AnimationAndMovementController : MonoBehaviour
     {
                 // +y is forward, -y is backward, +x is right, -x is left
         currentMovementInput = context.ReadValue<Vector2>();
-        currentMovement.x = currentMovementInput.x;
-        currentMovement.z = currentMovementInput.y;
-        isMovementPressed = (currentMovementInput.x != 0 || currentMovementInput.y != 0);
-        animator.SetBool(isWalkingHash, isMovementPressed);
+
+        goalSpeed = currentMovementInput.y;
+        currentSpeed = goalSpeed;
+
+        animator.SetBool(isWalkingHash, Mathf.Abs(currentSpeed) > 0.01f);
     }
 
     void handleRotation()
     {
-        Vector3 positionToLookAt;
-
-        positionToLookAt.x = currentMovement.x;
-        positionToLookAt.y = 0.0f;
-        positionToLookAt.z = currentMovement.z;
-
-        Quaternion currentRotation = transform.rotation;
-
-        if (isMovementPressed)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt);
-            transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, Time.deltaTime * 10);
-        }
+        Vector3 currentEulerAngles = characterController.transform.localEulerAngles;
+        characterController.transform.Rotate(0,
+            currentMovementInput.x * rotationDegreesPerSecond * Time.deltaTime, 
+            0,
+            Space.Self);
     }
 
     void OnEnable()
@@ -68,6 +64,6 @@ public class AnimationAndMovementController : MonoBehaviour
     void Update()
     {
         handleRotation();
-        characterController.Move(currentMovement * Time.deltaTime);
+        characterController.SimpleMove(transform.forward * currentSpeed * walkSpeed);
     }
 }
