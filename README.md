@@ -22,6 +22,14 @@ To make a game:
  * If there are things broken, fix them.
  * merge realize back to main
  * push to origin main
+ 
+## Credits
+ 
+ "Amy" character and some animations courtesy Mixamo, (c) Adobe Inc.
+ 
+ Palm trees modified from tree by chrisrossx on Sketchfab.
+ 
+ Pseudo-Arabic fonts from dafonts.com
 
 ## The Branches
 
@@ -58,11 +66,17 @@ Apply a lattice modifier to buildings, carts, etc for a cartoony look
 
 Use an earth tones palette.
 
-Buildings are milk chocolate. Walls have a very rough texture. Apply a white noise normal map. Round the corners of walls.  Floor plans are often square.
+Buildings are milk chocolate. Walls have a very rough texture. Apply a white noise normal map. Round the corners of walls.  Floor plans are often square and small buildings are more often multi-story than in Europe.
+Buildings are often built on the roof creating 'pile of boxes'. Buildings have a cube module. Walls have a slight but noticable batter.
 
 Windows are simple portrait aspect 'holes', small frameless windows. Many doors and some windows are set into a stepped 'arab' alcove. There are sometimes a series of alcoves under the eaves or occupying the entire side of the building. Some walls have a grid of vent/firing holes at about 2 meter intervals
 
-Eaves are small and there is no parapet. Sometimes instead there may be regularly spaced chimney pots. Roofs are flat. 
+Eaves are small and there is rarely a parapet. Sometimes instead there may be regularly spaced chimney pots. If there's a parapet, a wooden trough extends a meter or so out from scuppers to channel runoff. Roofs are flat. 
+
+Doors are panel construction, or a plain rectangle the aspect of the opening. If a door has a handle, the building has an interior and can be entered by the player. Prefabs should handle door motion unless needed by game play. Doors should have an origin at bottom on the hinge side. Openable doors should be rigidbody and rotate on a Unity Hinge joint with a spring to  close them. There should be a script that controls if the door is locked, which should interact with Unity Behavior Trees.
+
+Stairs should have a ramp collision object.
+
 
 
 
